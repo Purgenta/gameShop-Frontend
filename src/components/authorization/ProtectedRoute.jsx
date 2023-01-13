@@ -1,18 +1,14 @@
-import { useContext } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthenticationContext from "../contexts/AuthenticationContext";
-export default function ProtectedRoute({ children, roles }) {
+import useAuthentication from "../../hooks/useAuthentication";
+export default function ProtectedRoute({ children, roles, authenticated }) {
   const navigate = useNavigate();
-  const authenticationContext = useContext(AuthenticationContext);
-  console.log(authenticationContext);
-  const { authentication: role, authentication: isAuthenticated } =
-    authenticationContext;
-  if (!roles.includes(role)) {
-    console.log("running ");
-    navigate("/forbidden");
-  } else if (!isAuthenticated) {
-    console.log("isn't authenticated");
-    navigate("/unauthorized");
-  }
+  const { authentication } = useAuthentication();
+  useEffect(() => {
+    if (authenticated && !authentication.isAuthenticated) navigate("/login");
+    else if (roles.length > 0 && !roles.includes(authentication.role))
+      navigate("/unauthorized");
+  }, [authenticated, roles, authentication]);
+
   return <>{children}</>;
 }

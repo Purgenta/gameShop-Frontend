@@ -1,17 +1,10 @@
-import { createContext, useState } from "react";
-const AuthenticationContext = createContext({});
-export function AuthenticationContextProvider({ children }) {
-  const [authentication, setAuthentication] = useState({
+import { createContext } from "react";
+const AuthenticationContext = createContext({
+  authentication: {
     accessToken: "",
     isAuthenticated: false,
     role: "",
-  });
-  return (
-    <AuthenticationContext.Provider
-      value={{ authentication, setAuthentication }}
-    >
-      {children}
-    </AuthenticationContext.Provider>
-  );
-}
+  },
+  setAuthentication: () => {},
+});
 export default AuthenticationContext;
