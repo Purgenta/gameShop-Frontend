@@ -6,6 +6,7 @@ import UnathorizedAccess from "./components/authorization/UnauthorizedAccess";
 import AuthenticationContext from "./components/contexts/AuthenticationContext";
 import { useState } from "react";
 import ProtectedRoute from "./components/authorization/ProtectedRoute";
+import Navigation from "./components/navigation/Navigation";
 export default function App() {
   const [authentication, setAuthentication] = useState({
     accessToken: "",
@@ -17,10 +18,13 @@ export default function App() {
       <AuthenticationContext.Provider
         value={{ authentication, setAuthentication }}
       >
+        <Navigation />
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/unauthorized" element={<UnathorizedAccess />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route element={<ProtectedRoute authenticated={true} roles={[]} />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Routes>
       </AuthenticationContext.Provider>
     </div>

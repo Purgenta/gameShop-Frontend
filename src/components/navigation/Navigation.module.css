@@ -1,0 +1,7 @@
+ul.main-nav__links {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}

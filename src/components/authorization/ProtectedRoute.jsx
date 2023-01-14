@@ -1,14 +1,15 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import useAuthentication from "../../hooks/useAuthentication";
-export default function ProtectedRoute({ children, roles, authenticated }) {
-  const navigate = useNavigate();
+import { useLocation } from "react-router-dom";
+export default function ProtectedRoute({ roles, authenticated }) {
+  const location = useLocation();
   const { authentication } = useAuthentication();
-  useEffect(() => {
-    if (authenticated && !authentication.isAuthenticated) navigate("/login");
-    else if (roles.length > 0 && !roles.includes(authentication.role))
-      navigate("/unauthorized");
-  }, [authenticated, roles, authentication]);
-
-  return <>{children}</>;
+  const isAuthenticated = authenticated && !authentication.isAuthenticated;
+  const isAuthorized = !roles.includes(authentication.role) && roles.length > 0;
+  if (isAuthenticated) {
+    return <Navigate to={"/login"} from={location.pathname}></Navigate>;
+  } else if (isAuthorized) {
+    return <Navigate to={"/unauthorized"} from={location.pathname}></Navigate>;
+  }
+  return <Outlet></Outlet>;
 }

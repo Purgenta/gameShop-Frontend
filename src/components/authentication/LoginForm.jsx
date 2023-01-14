@@ -40,12 +40,14 @@ export default function LoginForm(props) {
     } catch (error) {
       if (!error?.response) setError("No response from the server");
       else if (error.response?.status === 400) {
+        setError("Unsuccessful login attempt");
       }
     }
   };
   return (
     <div className="login-form__wrapper">
-      <form>
+      <form onSubmit={onFormSubmitHandler}>
+        {error && <p className="error-message">{error}</p>}
         <label htmlFor="email">{"Email:"}</label>
         <input
           ref={emailRef}
@@ -62,11 +64,7 @@ export default function LoginForm(props) {
           ref={passwordRef}
           placeholder="Password"
         />
-        <button
-          className="submit-button"
-          disabled={false}
-          onClick={onFormSubmitHandler}
-        >
+        <button className="submit-button" disabled={false}>
           Submit
         </button>
       </form>
