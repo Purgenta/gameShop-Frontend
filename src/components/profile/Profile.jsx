@@ -19,7 +19,6 @@ export default function Profile(props) {
   };
   useEffect(() => {
     const abortController = new AbortController();
-    console.log("executing");
     const getProfile = async () => {
       try {
         const response = await axios.get("user/profile", {});

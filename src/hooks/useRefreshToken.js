@@ -1,8 +1,9 @@
+import { getToken } from "../components/authentication/saveToken";
 import axios from "../requests/axiosRequest";
 import useAuthentication from "./useAuthentication";
 const useRefreshToken = () => {
   const { setAuthentication } = useAuthentication();
-  const refreshToken = localStorage.getItem("refreshToken");
+  const refreshToken = getToken();
   const getAccessToken = async () => {
     const bearer = `Bearer ${refreshToken}`;
     const response = await axios.get("/authentication/refreshToken", {

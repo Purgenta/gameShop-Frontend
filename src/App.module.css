@@ -1,0 +1,21 @@
+@import "./variables.css";
+.button-default {
+  padding: 0.3rem 1rem;
+  border-radius: 0.1rem;
+  background-color: var(--main-button-color);
+  color: var(--main-button-text-color);
+  font-size: 1.2rem;
+}
+.form-controls {
+  margin: 1rem 0rem;
+  padding: 1rem;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.error-message {
+  color: var(--main-error-message-color);
+  font-size: 1.2rem;
+  text-align: center;
+}

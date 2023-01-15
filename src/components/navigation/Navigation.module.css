@@ -12,9 +12,12 @@ ul.main-nav__links {
   width: 100%;
 }
 .main-nav__link {
-  padding: 0.6rem 0.3rem;
   text-decoration: none;
-  margin: 0.4rem;
+  margin: 0.2rem 0.4rem 0rem;
   color: var(--main-link-color);
   font-size: 1.6rem;
+  position: relative;
+}
+.main-nav__link:hover {
+  border-bottom: 2px solid gainsboro;
 }
