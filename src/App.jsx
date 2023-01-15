@@ -1,13 +1,23 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import LoginForm from "./components/authentication/LoginForm";
-import Profile from "./components/profile/Profile";
-import UnathorizedAccess from "./components/authorization/UnauthorizedAccess";
 import AuthenticationContext from "./components/contexts/AuthenticationContext";
-import { useState } from "react";
-import ProtectedRoute from "./components/authorization/ProtectedRoute";
+import { Suspense, useState, lazy } from "react";
+import ReactDOM from "react-dom";
 import Navigation from "./components/navigation/Navigation";
+const mainHeader = document.querySelector("#main-header");
 export default function App() {
+  const ProtectedRoute = lazy(() => {
+    import("./components/authorization/ProtectedRoute");
+  });
+  const Profile = lazy(() => {
+    import("./components/profile/Profile");
+  });
+  const UnathorizedAccess = lazy(() => {
+    import("./components/authorization/UnauthorizedAccess");
+  });
+  const LoginForm = lazy(() => {
+    import("./components/authentication/LoginForm");
+  });
   const [authentication, setAuthentication] = useState({
     accessToken: "",
     isAuthenticated: false,
@@ -18,7 +28,10 @@ export default function App() {
       <AuthenticationContext.Provider
         value={{ authentication, setAuthentication }}
       >
-        <Navigation />
+        <Suspense
+          fallback={<div className="loading">Loading ...</div>}
+        ></Suspense>
+        {ReactDOM.createPortal(<Navigation />, mainHeader)}
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/unauthorized" element={<UnathorizedAccess />} />
