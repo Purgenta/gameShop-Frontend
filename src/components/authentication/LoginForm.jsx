@@ -84,6 +84,7 @@ export default function LoginForm(props) {
             }}
             id="email"
             type={"email"}
+            className={style["authentication-input"]}
             placeholder="Email"
             autoComplete="current-email"
             value={email.value}

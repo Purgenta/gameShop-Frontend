@@ -1,0 +1,12 @@
+.check-group {
+  margin: 0.6rem 0rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.check-group > input {
+  height: 1.2rem;
+  width: 1.2rem;
+}
+.check-group > label {
+  font-size: 0.9rem;
+}

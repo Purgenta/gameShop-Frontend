@@ -3,6 +3,7 @@ import AuthenticationContext from "./components/contexts/AuthenticationContext";
 import { Suspense, useState, lazy } from "react";
 import ReactDOM from "react-dom";
 import Navigation from "./components/navigation/Navigation";
+import Filter from "./components/filter/Filter";
 const mainHeader = document.querySelector("#main-header");
 const ProtectedRoute = lazy(() => {
   return import("./components/authorization/ProtectedRoute");
@@ -24,6 +25,7 @@ export default function App() {
   });
   return (
     <>
+      <Filter></Filter>
       <AuthenticationContext.Provider
         value={{ authentication, setAuthentication }}
       >
@@ -32,7 +34,11 @@ export default function App() {
           <Routes>
             <Route path="/login" element={<LoginForm />} />
             <Route path="/unauthorized" element={<UnathorizedAccess />} />
-            <Route element={<ProtectedRoute authenticated={true} roles={[]} />}>
+            <Route
+              element={
+                <ProtectedRoute authenticated={true} roles={["ROLE_USER"]} />
+              }
+            >
               <Route path="/profile" element={<Profile />} />
             </Route>
           </Routes>
