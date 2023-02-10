@@ -1,8 +1,9 @@
-import useAuthentication from "../../hooks/useAuthentication";
+import { useSelector } from "react-redux";
+import { authenticationSelector } from "../../redux/slices/authenticationSlice";
 import { NavLink } from "react-router-dom";
 import style from "./Navigation.module.css";
 export default Navigation = (props) => {
-  const { authentication } = useAuthentication();
+  const authentication = useSelector(authenticationSelector);
   return (
     <nav className={style["main-nav"]}>
       <ul className={style["main-nav__links"]}>

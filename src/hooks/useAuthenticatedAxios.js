@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { authenticatedAxios } from "../requests/axiosRequest";
-import useAuthentication from "./useAuthentication";
+import { authenticationSelector } from "../redux/slices/authenticationSlice";
+import { useSelector } from "react-redux";
 import useRefreshToken from "./useRefreshToken";
 const useAuthenticetedAxios = () => {
-  const { authentication } = useAuthentication();
+  const authentication = useSelector(authenticationSelector);
   const refreshToken = useRefreshToken();
   useEffect(() => {
     const requestInterceptor = authenticatedAxios.interceptors.request.use(

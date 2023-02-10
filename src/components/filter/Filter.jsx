@@ -5,7 +5,7 @@ import style from "./Filter.module.css";
 import Dropdown from "../checkboxform/Dropdown";
 import CheckBoxForm from "../checkboxform/CheckBoxForm";
 import filterReducer from "./filterReducer";
-export default function Filter(props) {
+export default function Filter({ className }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [state, dispatch] = useReducer(filterReducer, null);
@@ -33,15 +33,14 @@ export default function Filter(props) {
           url += `&searchCategories=${value}`;
         });
       }
-      console.log(url);
     }, 500);
     return () => {
       clearTimeout(timeOut);
     };
   }, [state]);
   return (
-    <aside className={style["filter"]}>
-      <ul className={style["filter-list"]}>
+    <aside className={`${style["filter"]} ${className}}`}>
+      <ul className={`${style["filter-list"]}`}>
         {data && (
           <>
             <li>

@@ -1,0 +1,25 @@
+.list-filter__wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  justify-content: flex-start;
+  overflow: hidden;
+  gap: 2rem;
+}
+.game-search {
+  flex-grow: 1;
+}
+.filter {
+  position: relative;
+}
+.filter > ul {
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+.game-search > h2 {
+  margin: 1rem 0rem;
+}
+.list-filter__wrapper > div {
+  flex-grow: 1;
+}

@@ -15,8 +15,8 @@ body {
   flex-grow: 1;
   padding: 1rem 0.6rem;
   width: 100%;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 input {
   display: block;

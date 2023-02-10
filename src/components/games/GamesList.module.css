@@ -1,0 +1,6 @@
+.games-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  list-style-type: none;
+  gap: 1.5rem;
+}

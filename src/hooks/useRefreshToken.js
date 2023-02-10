@@ -1,8 +1,7 @@
 import { getToken } from "../components/authentication/saveToken";
 import axios from "../requests/axiosRequest";
-import useAuthentication from "./useAuthentication";
+import { updateAuthentication } from "../redux/slices/authenticationSlice";
 const useRefreshToken = () => {
-  const { setAuthentication } = useAuthentication();
   const refreshToken = getToken();
   const getAccessToken = async () => {
     const bearer = `Bearer ${refreshToken}`;
@@ -15,13 +14,7 @@ const useRefreshToken = () => {
       data: { accessToken },
       data: { role },
     } = response;
-    setAuthentication((prev) => {
-      return {
-        ...prev,
-        accessToken,
-        role,
-      };
-    });
+    updateAuthentication({ accessToken, role, isAuthenticated: true });
     return response.data.accessToken;
   };
   return getAccessToken;

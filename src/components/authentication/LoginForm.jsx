@@ -1,9 +1,10 @@
 import axios from "../../requests/axiosRequest";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthentication from "../../hooks/useAuthentication";
+import { updateAuthentication } from "../../redux/slices/authenticationSlice";
 import { saveToken } from "./saveToken";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import style from "./LoginForm.module.css";
 import { Link } from "react-router-dom";
 import styles from "../../App.module.css";
@@ -11,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { validateEmail, validatePassword } from "./validation";
 export default function LoginForm(props) {
-  const { setAuthentication } = useAuthentication();
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [formValidity, setFormValidity] = useState(false);
   const [email, setEmail] = useState({
@@ -54,11 +55,13 @@ export default function LoginForm(props) {
         data: { role },
       } = response;
       saveToken(refreshToken);
-      setAuthentication({
-        isAuthenticated: true,
-        accessToken,
-        role,
-      });
+      dispatch(
+        updateAuthentication({
+          isAuthenticated: true,
+          accessToken,
+          role,
+        })
+      );
       navigate("/profile");
     } catch (error) {
       if (!error?.response) setError("No response from the server");
