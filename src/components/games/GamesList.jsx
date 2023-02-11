@@ -4,7 +4,9 @@ const GamesList = ({ games }) => {
   const gamesDisplay = games.map((value) => {
     const { title, id, price, gameImages } = value;
     return (
-      <GameItem gameImages={gameImages} key={id} price={price} title={title} />
+      <li key={id} className={style["item"]}>
+        <GameItem id={id} gameImages={gameImages} price={price} title={title} />
+      </li>
     );
   });
   return (

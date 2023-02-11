@@ -4,3 +4,10 @@
   flex-direction: column;
   gap: 2rem;
 }
+.filter-list > * {
+  border-bottom: 1px solid black;
+  padding: 0.5rem 0rem;
+}
+.filter-list > :last-child {
+  border-bottom: none;
+}

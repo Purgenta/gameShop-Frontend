@@ -10,15 +10,13 @@
   flex-grow: 1;
 }
 .filter {
-  position: relative;
-}
-.filter > ul {
   position: sticky;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
 }
 .game-search > h2 {
-  margin: 1rem 0rem;
+  margin-bottom: 2rem;
+  text-decoration: underline;
 }
 .list-filter__wrapper > div {
   flex-grow: 1;

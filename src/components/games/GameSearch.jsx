@@ -10,6 +10,9 @@ const GameSearch = () => {
   const [url, setUrl] = useState(baseUrl);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const onFilterChange = (url) => {
+    setUrl(url);
+  };
   useEffect(() => {
     const getGamesData = async () => {
       try {
@@ -25,7 +28,7 @@ const GameSearch = () => {
     <section className={style["game-search"]}>
       <h2>Search games</h2>
       <div className={style["list-filter__wrapper"]}>
-        <Filter className={style["filter"]}></Filter>
+        <Filter onChange={onFilterChange} className={style["filter"]}></Filter>
         {data && (
           <GamesList
             games={data.games}

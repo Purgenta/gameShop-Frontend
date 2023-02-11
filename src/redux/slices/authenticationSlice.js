@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
 const initialState = {
   isAuthenticated: false,
   role: null,
@@ -16,10 +15,10 @@ export const authSlice = createSlice({
       return state;
     },
     updateAuthentication: (state, action) => {
-      console.log(action.payload);
       state.isAuthenticated = action.payload.isAuthenticated;
       state.role = action.payload.role;
       state.accessToken = action.payload.accessToken;
+      return state;
     },
   },
 });
