@@ -1,7 +1,13 @@
 @import "../../variables.css";
 
 nav.main-nav {
-  padding: 1rem;
+  padding: 1rem 2rem;
+  background-color: var(--main-nav-background-color);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
 }
 ul.main-nav__links {
   list-style-type: none;
@@ -9,7 +15,6 @@ ul.main-nav__links {
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  width: 100%;
 }
 .main-nav__link {
   text-decoration: none;
@@ -20,4 +25,40 @@ ul.main-nav__links {
 }
 .main-nav__link:hover {
   border-bottom: 2px solid gainsboro;
+}
+.cart-badge {
+  background-color: transparent;
+  border: 1px solid var(--main-link-color);
+  position: relative;
+  right: -7px;
+  z-index: 0;
+}
+.cart-count {
+  background-color: rgb(235, 196, 97);
+  color: var(--main-nav-background-color);
+  border-radius: 50%;
+  height: 1.4rem;
+  min-width: 1.4rem;
+  text-align: center;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.2rem;
+  z-index: 5;
+}
+.cart {
+  position: relative;
+  padding: 1rem;
+}
+.user-interactions {
+  display: flex;
+}
+.user-interactions > a {
+  padding: 1rem 0.5rem;
+  color: white;
+  display: block;
+}
+.logo > img {
+  width: 150px;
 }

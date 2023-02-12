@@ -1,8 +1,11 @@
+@import url("../../variables.css");
 .filter-list {
   list-style-type: none;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  padding: 2rem;
+  background-color: var(--main-highlight-color);
 }
 .filter-list > * {
   border-bottom: 1px solid black;

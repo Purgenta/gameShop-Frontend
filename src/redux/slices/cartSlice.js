@@ -1,10 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 let cart = localStorage.getItem("cart");
 if (cart) {
   cart = JSON.parse(cart);
 } else {
   cart = {};
 }
+export const saveCart = createAsyncThunk("cart/saveCart", async () => {
+  const response = await Promise.resolve();
+});
 const differentItems = Object.keys(cart).length;
 const cartSlice = createSlice({
   name: "cart",
@@ -33,6 +36,11 @@ const cartSlice = createSlice({
     },
     removeAllCartItems: (state, action) => {},
     addCartItems: (state, action) => {},
+  },
+  extraReducers(builder) {
+    builder.addCase(saveCart.fulfilled, (state, action) => {
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+    });
   },
 });
 export default cartSlice.reducer;

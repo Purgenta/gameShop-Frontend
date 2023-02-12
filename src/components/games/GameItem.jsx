@@ -2,15 +2,14 @@ import React from "react";
 import style from "./GameItem.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { addCartItem, selectCartItemCount } from "../../redux/slices/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { addCartItem, saveCart } from "../../redux/slices/cartSlice";
+import { useDispatch } from "react-redux";
 const root = `http://localhost:8080`;
 const GameItem = ({ title, price, gameImages, id }) => {
-  const cartItemCount = useSelector((state) => state.cart);
-  console.log(cartItemCount.cart);
   const dispatch = useDispatch();
   const onCartPressed = () => {
     dispatch(addCartItem(id));
+    dispatch(saveCart());
   };
   let imageUrl = `${root}${gameImages?.[0]?.["fileName"]}`;
   return (
