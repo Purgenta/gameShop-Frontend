@@ -1,0 +1,10 @@
+@import url("../../variables.css");
+.article-list {
+  display: flex;
+  gap: 1rem;
+  list-style-type: none;
+  flex-direction: column;
+  background-color: var(--main-highlight-color);
+  border-radius: 1rem;
+  padding: 2rem 1rem;
+}

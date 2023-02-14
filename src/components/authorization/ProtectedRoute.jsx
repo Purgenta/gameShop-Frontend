@@ -1,18 +1,17 @@
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthenticationContext from "../contexts/AuthenticationContext";
-export default function ProtectedRoute({ children, roles }) {
-  const navigate = useNavigate();
-  const authenticationContext = useContext(AuthenticationContext);
-  console.log(authenticationContext);
-  const { authentication: role, authentication: isAuthenticated } =
-    authenticationContext;
-  if (!roles.includes(role)) {
-    console.log("running ");
-    navigate("/forbidden");
-  } else if (!isAuthenticated) {
-    console.log("isn't authenticated");
-    navigate("/unauthorized");
+import { Outlet, Navigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { authenticationSelector } from "../../redux/slices/authenticationSlice";
+import { useSelector } from "react-redux";
+export default function ProtectedRoute({ roles, authenticated }) {
+  const location = useLocation();
+  const authentication = useSelector(authenticationSelector);
+  console.log(authentication);
+  const isAuthenticated = authenticated && !authentication.isAuthenticated;
+  const isAuthorized = roles.length > 0 && !roles.includes(authentication.role);
+  if (isAuthenticated) {
+    return <Navigate to={"/login"} from={location.pathname}></Navigate>;
+  } else if (isAuthorized) {
+    return <Navigate to={"/unauthorized"} from={location.pathname}></Navigate>;
   }
-  return <>{children}</>;
+  return <Outlet></Outlet>;
 }

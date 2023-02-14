@@ -1,0 +1,77 @@
+.range-wrapper {
+  position: relative;
+  width: 15rem;
+}
+.range {
+  appearance: none;
+  pointer-events: none;
+  width: 15rem;
+  background-color: transparent;
+}
+.ranges {
+  height: 0.8rem;
+}
+.range::-webkit-slider-thumb,
+.range,
+.full-range,
+.out-range {
+  position: absolute;
+  outline: none;
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: rgb(61, 58, 55);
+  height: 1.4rem;
+  width: 1.4rem;
+  border-radius: 50%;
+}
+.left {
+  z-index: 4;
+}
+.right {
+  z-index: 4;
+}
+.full-range {
+  height: 5px;
+  background-color: rgb(65, 63, 63);
+  width: 15rem;
+  margin-top: 1rem;
+  z-index: 3;
+}
+.range::-webkit-slider-thumb {
+  background-color: #f1f5f7;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #ced4da;
+  cursor: pointer;
+  height: 18px;
+  width: 18px;
+  margin-top: 4px;
+  pointer-events: all;
+  position: relative;
+}
+.out-range {
+  width: 15rem;
+  background-color: gainsboro;
+  margin-top: 1rem;
+  height: 5px;
+}
+.range::-moz-range-thumb {
+  background-color: #f1f5f7;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #ced4da;
+  cursor: pointer;
+  height: 18px;
+  width: 18px;
+  margin-top: 4px;
+  pointer-events: all;
+  position: relative;
+}
+.price {
+  margin-top: 1.5rem;
+  padding: 0.1rem;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}

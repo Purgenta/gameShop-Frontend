@@ -1,17 +1,48 @@
-import "./App.css";
-import { AuthenticationContextProvider } from "./components/contexts/AuthenticationContext";
 import { Routes, Route } from "react-router-dom";
-import LoginForm from "./components/authentication/LoginForm";
-import Profile from "./components/profile/Profile";
+import { Suspense, useState, lazy } from "react";
+import ReactDOM from "react-dom";
+import Navigation from "./components/navigation/Navigation";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
+const mainHeader = document.querySelector("#main-header");
+const ProtectedRoute = lazy(() => {
+  return import("./components/authorization/ProtectedRoute");
+});
+const Profile = lazy(() => {
+  return import("./components/profile/Profile");
+});
+const GameSearch = lazy(() => {
+  return import("./components/games/GameSearch");
+});
+const UnathorizedAccess = lazy(() => {
+  return import("./components/authorization/UnauthorizedAccess");
+});
+const LoginForm = lazy(() => {
+  return import("./components/authentication/LoginForm");
+});
+const Cart = lazy(() => {
+  return import("./components/cart/Cart");
+});
 export default function App() {
   return (
-    <div className="App">
-      <AuthenticationContextProvider>
-        <Routes>
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/profile" element={<Profile />}></Route>
-        </Routes>
-      </AuthenticationContextProvider>
-    </div>
+    <>
+      <Provider store={store}>
+        <Suspense fallback={<div className="loading">Loading ...</div>}>
+          {ReactDOM.createPortal(<Navigation />, mainHeader)}
+          <Routes>
+            <Route
+              path="/searchGames"
+              element={<GameSearch></GameSearch>}
+            ></Route>
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/unauthorized" element={<UnathorizedAccess />} />
+            <Route element={<ProtectedRoute authenticated={true} roles={[]} />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+            <Route path="/cart" element={<Cart></Cart>}></Route>
+          </Routes>
+        </Suspense>
+      </Provider>
+    </>
   );
 }

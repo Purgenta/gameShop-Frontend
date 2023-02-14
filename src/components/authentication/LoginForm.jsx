@@ -1,22 +1,48 @@
-import axios from "axios";
+import axios from "../../requests/axiosRequest";
 import { useState } from "react";
-import { useRef } from "react";
-import { useContext } from "react";
-import AuthenticationContext from "../contexts/AuthenticationContext";
+import { useNavigate } from "react-router-dom";
+import { updateAuthentication } from "../../redux/slices/authenticationSlice";
+import { saveToken } from "./saveToken";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import style from "./LoginForm.module.css";
+import { Link } from "react-router-dom";
+import styles from "../../App.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { validateEmail, validatePassword } from "./validation";
 export default function LoginForm(props) {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const authentication = useContext(AuthenticationContext);
-  const { authenticationProperties, setAuthentication } = authentication;
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
-  const onFormSubmitHandler = async (event) => {
+  const [formValidity, setFormValidity] = useState(false);
+  const [email, setEmail] = useState({
+    value: "",
+    isValid: false,
+  });
+  const [password, setPassword] = useState({
+    isValid: false,
+    value: "",
+    isFocused: false,
+  });
+  const navigate = useNavigate();
+  useEffect(() => {
+    setFormValidity(email.isValid && password.isValid);
+  }, [email, password]);
+  const onFormSubmitHandler = (event) => {
     event.preventDefault();
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+    if (!formValidity) return;
+    else {
+      sendLoginData();
+    }
+  };
+  const sendLoginData = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/authentication/login",
-        JSON.stringify({ email, password }),
+        "authentication/login",
+        JSON.stringify({
+          email: email.value,
+          password: password.value,
+        }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -28,43 +54,101 @@ export default function LoginForm(props) {
         data: { refreshToken },
         data: { role },
       } = response;
-      setAuthentication({
-        isAuthenticated: true,
-        accessToken,
-        role,
-      });
+      saveToken(refreshToken);
+      dispatch(
+        updateAuthentication({
+          isAuthenticated: true,
+          accessToken,
+          role,
+        })
+      );
+      navigate("/profile");
     } catch (error) {
-      console.log(error);
       if (!error?.response) setError("No response from the server");
       else if (error.response?.status === 400) {
+        setError("Unsuccessful login attempt");
       }
     }
   };
   return (
-    <div className="login-form__wrapper">
-      <label htmlFor="email">{"Email:"}</label>
-      <input
-        ref={emailRef}
-        id="email"
-        type={"email"}
-        placeholder="Email"
-        required
-        name="email"
-      />
-      <label htmlFor="password">{"Password:"}</label>
-      <input
-        id="password"
-        type="password"
-        ref={passwordRef}
-        placeholder="Password"
-      />
-      <button
-        className="submit-button"
-        disabled={false}
-        onClick={onFormSubmitHandler}
-      >
-        Submit
-      </button>
+    <div className={style["form-container"]}>
+      {error && <p className={styles["error-message"]}>{error}</p>}
+      <form onSubmit={onFormSubmitHandler} className={style["login-form"]}>
+        <div className="form-group">
+          <label htmlFor="email" className="input-label">
+            Email:
+          </label>
+          <input
+            onChange={(event) => {
+              setEmail({
+                value: event.target.value,
+                isValid: validateEmail(event.target.value),
+              });
+            }}
+            id="email"
+            type={"email"}
+            className={style["authentication-input"]}
+            placeholder="Email"
+            autoComplete="current-email"
+            value={email.value}
+            required
+            name="email"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password" className="input-label">
+            {"Password:"}
+          </label>
+          <input
+            id="password"
+            type="password"
+            autoComplete="current-password"
+            onChange={(event) => {
+              setPassword({
+                ...password,
+                isValid: validatePassword(event.target.value),
+                value: event.target.value,
+              });
+            }}
+            onFocus={() => {
+              setPassword({
+                ...password,
+                isFocused: true,
+              });
+            }}
+            onBlur={() => {
+              setPassword({
+                ...password,
+                isFocused: false,
+              });
+            }}
+            value={password.value}
+            placeholder="Password"
+            aria-describedby="aria-description-password"
+          />
+          {password.isFocused && (
+            <p id="aria-description-password" className="aria-description">
+              <FontAwesomeIcon icon={faInfoCircle}> </FontAwesomeIcon>
+              <span>
+                Your password must be between 5-16 characters, no special
+                characters only uppercase/lower case and numbers
+              </span>
+            </p>
+          )}
+        </div>
+        <div className={styles["form-controls"]}>
+          <button
+            type="submit"
+            className={styles["button-default"]}
+            disabled={!formValidity}
+          >
+            Submit
+          </button>
+        </div>
+        <Link className="form-link" to={"/register"}>
+          Don't have an account? Sign up!
+        </Link>
+      </form>
     </div>
   );
 }

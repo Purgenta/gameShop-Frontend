@@ -1,0 +1,23 @@
+.list-filter__wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  justify-content: flex-start;
+  overflow: hidden;
+  gap: 2rem;
+}
+.game-search {
+  flex-grow: 1;
+}
+.filter {
+  position: sticky;
+  top: 0px;
+  left: 0px;
+}
+.game-search > h2 {
+  margin-bottom: 2rem;
+  text-decoration: underline;
+}
+.list-filter__wrapper > div {
+  flex-grow: 1;
+}

@@ -1,2 +1,14 @@
 :root {
+  --main-nav-link-color: #f2f2f2;
+  --main-background-color: #f2f2f2;
+  --main-highlight-color: #ffffff;
+  --main-button-color: #4681f4;
+  --main-button-text-color: white;
+  --main-error-message-color: #cc0000;
+  --main-nav-background-color: rgba(22, 22, 77, 0.99);
+  --main-glasified-background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.1)
+  );
 }
