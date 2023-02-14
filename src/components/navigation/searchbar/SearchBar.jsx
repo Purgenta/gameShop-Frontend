@@ -12,7 +12,11 @@ const SearchBar = (props) => {
         id="search-products"
         placeholder="Search for..."
       ></input>
-      <button className={style["search-submit"]} type="submit">
+      <button
+        aria-label="submit-search"
+        className={style["search-submit"]}
+        type="submit"
+      >
         <FontAwesomeIcon size={"xl"} icon={faMagnifyingGlass}></FontAwesomeIcon>
       </button>
     </form>

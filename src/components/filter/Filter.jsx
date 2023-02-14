@@ -5,9 +5,9 @@ import style from "./Filter.module.css";
 import Dropdown from "../checkboxform/Dropdown";
 import CheckBoxForm from "../checkboxform/CheckBoxForm";
 import filterReducer from "./filterReducer";
+import useRequestState from "../../hooks/useRequestState";
 export default function Filter({ className, onChange }) {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const { data, error, setData, setError } = useRequestState();
   const [state, dispatch] = useReducer(filterReducer, null);
   const categoryLabels = data && data.categories.map((value) => value.name);
   const categoryValues = data && data.categories.map((value) => value.id);

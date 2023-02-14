@@ -6,21 +6,23 @@ if (cart) {
   cart = {};
 }
 export const saveCart = createAsyncThunk("cart/saveCart", async () => {
-  const response = await Promise.resolve();
+  await Promise.resolve();
 });
-const differentItems = Object.keys(cart).length;
+const calculateDifferentItems = (cart) => Object.keys(cart).length;
 const cartSlice = createSlice({
   name: "cart",
-  initialState: { cart, differentItems },
+  initialState: { cart, differentItems: calculateDifferentItems(cart) },
   reducers: {
     addCartItem: {
       reducer: (state, action) => {
         const itemId = action.payload.itemId;
         if (state.cart.hasOwnProperty(action.payload.itemId)) {
-          state.cart[`${itemId}`] += 1;
+          state.cart[`${itemId}`]["quantity"] += 1;
         } else {
-          state.differentItems += 1;
-          state.cart[`${itemId}`] = 1;
+          state.cart[`${itemId}`] = {};
+          state.cart[`${itemId}`]["quantity"] = 1;
+          state.cart[`${itemId}`].gameId = itemId;
+          state.differentItems = calculateDifferentItems(state.cart);
         }
         return state;
       },
@@ -28,14 +30,30 @@ const cartSlice = createSlice({
         return { payload: { itemId } };
       },
     },
-    removeCartItem: (state, action) => {
-      const itemId = action.payload.itemId;
-      delete state.cart[`${itemId}`];
-      state.differentItems -= 1;
-      return state;
+    removeCartItem: {
+      reducer: (state, action) => {
+        const itemId = action.payload.itemId;
+        delete state.cart[`${itemId}`];
+        state.differentItems = calculateDifferentItems(state.cart);
+        return state;
+      },
+      prepare: (itemId) => {
+        return { payload: { itemId } };
+      },
     },
-    removeAllCartItems: (state, action) => {},
-    addCartItems: (state, action) => {},
+    updateQuantity: {
+      reducer: (state, action) => {
+        const { itemId, quantity } = action.payload;
+        state.cart[`${itemId}`].quantity += quantity;
+        if (state.cart[`${itemId}`].quantity <= 0) {
+          delete state.cart[`${itemId}`];
+        }
+        return state;
+      },
+      prepare: (itemId, quantity) => {
+        return { payload: { itemId, quantity } };
+      },
+    },
   },
   extraReducers(builder) {
     builder.addCase(saveCart.fulfilled, (state, action) => {
@@ -47,5 +65,8 @@ export default cartSlice.reducer;
 export const selectCartItemCount = (state) => {
   return state.cart.differentItems;
 };
-export const { removeAllCartItems, removeCartItem, addCartItem, addCartItems } =
+export const selectCart = (state) => {
+  return state.cart.cart;
+};
+export const { updateQuantity, removeCartItem, addCartItem } =
   cartSlice.actions;

@@ -20,6 +20,9 @@ const UnathorizedAccess = lazy(() => {
 const LoginForm = lazy(() => {
   return import("./components/authentication/LoginForm");
 });
+const Cart = lazy(() => {
+  return import("./components/cart/Cart");
+});
 export default function App() {
   return (
     <>
@@ -36,6 +39,7 @@ export default function App() {
             <Route element={<ProtectedRoute authenticated={true} roles={[]} />}>
               <Route path="/profile" element={<Profile />} />
             </Route>
+            <Route path="/cart" element={<Cart></Cart>}></Route>
           </Routes>
         </Suspense>
       </Provider>
